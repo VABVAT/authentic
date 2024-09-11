@@ -6,9 +6,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
     <title>Front-End</title>
+    <script>
+        async function signup(){
+            const user = document.getElementById("userName").value;
+            const pass = document.getElementById("password").value;
+            const response = await fetch("http://localhost:3000/signup", {
+                method:"POST",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({username: user, password: pass})
+            })
+            const doc = document.getElementById("container3");
+            doc.innerHTML = "sign Up succesful";
+        }
+
+        async function signin() {
+            const user = document.getElementById("userName").value;
+            const pass = document.getElementById("password").value;   
+            const response = await fetch("http://localhost:3000/signin", {
+                method: "POST",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({username: user, password:pass})
+            })  
+            const tex = await response.text();
+            localStorage.setItem("token", tex);
+        }
+    </script>
 </head>
 <body>
-    
+    <div id="headDiv"> 
+    </div>
+    <div class="container">
+        <div id="container1">
+        <input id="userName" type="text" placeholder="Username">
+        </div>
+        <div id="container1">
+            <input id="password" type="password" placeholder="Password">
+        </div>
+        <div id="container2">
+        <button onclick="signup()">Sign Up</button>
+        <button onclick="signin()">Login</button>
+    </div>
+        <div  id="container3"> 
+        </div>
+</div>
 </body>
 </html>
