@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener("DOMContentLoaded", async function(){
+            const token = localStorage.getItem("token");
+            const response = await fetch('http://localhost:3000/addTodo', {
+                method: "POST",
+                headers:{"token": token, "Content-Type" : "application/json"},
+            })
+            const tasks = await response.json();
+            render(tasks);
+        });
+        async function addTask(){
+            const task = document.getElementById("workAdder").value;
+            const token = localStorage.getItem("token");
+            // console.log(token);
+            const response = await fetch('http://localhost:3000/addTodo', {
+                method: "POST",
+                headers:{"token": token, "Content-Type" : "application/json"},
+                body: JSON.stringify({task_: task})
+            })
+            const tasks = await response.json();
+            // console.log(tasks);
+            render(tasks);
+        }
+        function render(tasks) {
+            const taskList = document.getElementById("todolist");
+            taskList.innerHTML = "";
+            for(let i = 0; i < tasks.length; i++){
+                const task = tasks[i];
+                const list = document.getElementById("todolist");
+                const litem = document.createElement("li");
+                litem.innerHTML = task;
+                list.appendChild(litem);
+            }
+        }
+
+        function lo(){
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="workAdder">
+    <button onclick="addTask()">Add</button>
+    <ul id="todolist"></ul>
+    <button onclick="lo()"> Log out </button>
+</body>
+</html>

@@ -23,15 +23,25 @@
 
         async function signin() {
             const user = document.getElementById("userName").value;
-            const pass = document.getElementById("password").value;   
+            const pass = document.getElementById("password").value;  
+            //! response is token 
             const response = await fetch("http://localhost:3000/signin", {
                 method: "POST",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify({username: user, password:pass})
             })  
             const tex = await response.text();
-            localStorage.setItem("token", tex);
+            if(tex === "wrong"){
+                const doc = document.getElementById("container3");
+                doc.innerHTML = "Invalid credentials";
+            }else{
+                const doc = document.getElementById("container3");
+                doc.innerHTML = "";
+                //! token setting in frontend
+                localStorage.setItem("token", tex);
+                window.location.href = "/todo.html"
         }
+    }
     </script>
 </head>
 <body>
